@@ -1,27 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     var catButtonClick = document.getElementById('catButton');
-    
-    // onClick's logic below:
     catButtonClick.addEventListener('click', function() {
         catPage();
     });
+
+    var paragraphReplace = document.getElementById('pReplaceTxt');
+    paragraphReplace.addEventListener('change', function(event) {
+         updateCurrentTab(event.target.value);
+    });
 });
 
-function catPage() {
-    console.log("cat button clicked");
-    
+function updateCurrentTab(message) {
     let params = {
         active: true,
         currentWindow: true
     }
 
     chrome.tabs.query(params, gotTabs);
-
+    
     function gotTabs(tabs) {
         let msg = {
-            txt: "caterize"
+            txt: message
         }
 
         chrome.tabs.sendMessage(tabs[0].id, msg);
     }
+}
+
+function catPage() {
+    updateCurrentTab("caterize");
 }
